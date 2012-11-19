@@ -1,0 +1,1 @@
+In order to use Renren SDK we should put the file apiconfig.properties in the root.
