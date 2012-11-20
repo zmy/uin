@@ -49,11 +49,9 @@ public class UserInfo implements UserInfoProvider {
 		//<name>(子节点)	表示高中学校名
 		//<grad_year>(子节点)	表示入学时间
 	};
-
-	@Override
 	public String[] getKeys() {
 		// TODO Auto-generated method stub
-		return FIELDS;
+		return null;
 	}
 
 	public UserInfo(Auth auth) {
