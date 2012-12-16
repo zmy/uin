@@ -29,13 +29,13 @@ class RenrenDb:
 		conn.close()
 		return n 
 	
-	def getRenrenId(self,col,renrenId):
-		conn=self.getConn()
-		cur=conn.cursor()
-		target=str(col)
-		where=str(col%2+1)
-		res=set()
-		for table in [self.renren_relation,self.temp_relation]:
+	def getRenrenId(self, col, renrenId):
+		conn = self.getConn()
+		cur = conn.cursor()
+		target = str(col)
+		where = str(col%2+1)
+		res = set()
+		for table in [self.renren_relation, self.temp_relation]:
 			cur.execute("SELECT renrenId{} FROM {} where renrenId{}={}".format(target,table,where,renrenId))
 			for item in cur.fetchall():
 				res.add(item[0])

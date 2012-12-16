@@ -77,7 +77,7 @@ for (uid,ifreq) in freq.items():
 			name=subnames[fitem[0]]
 		except:
 			#name=db.getName(fitem[0])
-			name='帐号未录入数据库，注销'
+			name='帐号未录入数据库，注锄1�7'
 			print(fitem[0])
 		f.write('  '+str(fitem[1]).ljust(5)+fitem[0]+'  '+name+'\n')
 	f.write('\n')
