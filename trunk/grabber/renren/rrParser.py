@@ -7,13 +7,13 @@ from rrBrowser import RenrenBrowser
 
 
 class RenrenParser:
-	def __init__(self):
+	def __init__(self, browser):
 		#self.log=self.initLogger()
-		pass
+		self.browser = browser
 
 	def friendPage(self, filename):
 		#open and read 
-		f = open(filename,'r')
+		f = open(filename, 'r', encoding='utf-8')
 		htmlStr = str(f.readlines())
 		#parser all id/name pairs from profile urls
 		urlPtn = r'<a\shref=\"http://www.renren.com/profile.do\?id=\d+\">[^<]+<\/a>'
@@ -27,7 +27,7 @@ class RenrenParser:
 	
 	def statusPage(self,filename,mainId=None):
 		#open and read 
-		f=open(filename,'r')
+		f=open(filename, 'r', encoding='utf-8')
 		htmlStr=str(f.readlines())
 		f.close()
 
@@ -123,8 +123,8 @@ class RenrenParser:
 					print('error. filename={}'.format(page))
 
 	def friends(self):
-		for renrenId in os.listdir(RenrenBrowser.pwdFriendPage):
-			pwd = RenrenBrowser.pwdFriendPage+'/'+renrenId+'/'
+		for renrenId in os.listdir(self.browser.getPwdFriendPage()):
+			pwd = self.browser.getPwdFriendPage()+'/'+renrenId+'/'
 			#parsered pages and assign to flist 
 			pages = os.listdir(pwd)
 			flist = set()

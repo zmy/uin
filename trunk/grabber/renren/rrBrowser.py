@@ -8,10 +8,10 @@ import os
 
 
 class RenrenBrowser:
-	pwdRoot = '/renrenData'
-	pwdProfilePage = pwdRoot+'/profilePages'
-	pwdFriendPage = pwdRoot+'/friendPages'
-	pwdLog = pwdRoot+'/spider_log'
+	#pwdRoot = '/renrenData'
+	#pwdProfilePage = pwdRoot+'/profilePages'
+	#pwdFriendPage = pwdRoot+'/friendPages'
+	#pwdLog = pwdRoot+'/spider_log'
 	urlTmplt = {
 		'status':'http://status.renren.com/status?curpage={}&id={}&__view=async-html',
 		'friendList':"http://friend.renren.com/GetFriendList.do?curpage={}&id={}"}
@@ -21,10 +21,16 @@ class RenrenBrowser:
 	filenameTmplt = '{}{}_{}.html' #pageStyle, renrenId, page
 	
 	def __init__(self, user, passwd):
-		self.pwdRoot = './'+user+self.pwdRoot
+		self.pwdRoot = './'+user+'/renrenData'
+		self.pwdProfilePage = self.pwdRoot+'/profilePages'
+		self.pwdFriendPage = self.pwdRoot+'/friendList'
+		self.pwdLog = self.pwdRoot+'/spider_log'
 		self.log = self.initLogger()
 		self.user = user
 		self.passwd = passwd
+		
+	def getPwdFriendPage(self):
+		return self.pwdFriendPage
 
 	def friendListPage(self, renrenId, uppage=350):
 		self.iterPage('friendList', renrenId, uppage)
@@ -47,7 +53,7 @@ class RenrenBrowser:
 		#write to file
 		filenameTemplate='profile_{}.html'#id
 		filename=pwd+'/'+filenameTemplate.format(renrenId)
-		f=open(filename,'w')
+		f=open(filename, 'w', encoding='utf-8')
 		f.write(htmlStr)
 		f.close()
 		self.log.debug("detail profile write to file, file={}".format(filename))
@@ -80,7 +86,7 @@ class RenrenBrowser:
 				self.log.debug("all {} page of {} saved in {}".format(pageStyle, renrenId, pwd))
 				break
 			else:
-				f=open(pwd+'/'+self.filenameTmplt.format(pageStyle, renrenId, page), 'w')
+				f=open(pwd+'/'+self.filenameTmplt.format(pageStyle, renrenId, page), 'w', encoding='utf-8')
 				f.write(htmlStr)
 				f.close()
 

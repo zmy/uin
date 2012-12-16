@@ -9,13 +9,13 @@ rrUser = input("Your Renren Login Email: ")
 rrPassword = input("Your Renren Password: ")
 
 db = RenrenDb()
-parser = RenrenParser()
 browser = RenrenBrowser(user=rrUser, passwd=rrPassword)
 browser.setLogLevel(40)
 browser.login()
+parser = RenrenParser(browser)
 
 #net1
-browser.friendPage(rrID)
+browser.friendListPage(rrID)
 parser.friends()
 
 #net2

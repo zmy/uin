@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 class RenrenDb:
 	renren_relation='t_renren_relation'
 	temp_relation='temp_relation'
@@ -9,8 +10,8 @@ class RenrenDb:
 	def __init__(self):
 		pass
 	
-	def getConn(self, db='data_bang'):
-		return mysql.connector.connect(host='127.0.0.1', port=3306, user='root', passwd='Kunth123', db=db, charset='utf8')
+	def getConn(self, db='renren'):
+		return mysql.connector.connect(host='127.0.0.1', port=3306, user='renren', passwd='renren', db=db, charset='utf8')
 	
 	def execute(self, sql=None):
 		conn=self.getConn()
@@ -36,7 +37,7 @@ class RenrenDb:
 		where = str(col%2+1)
 		res = set()
 		for table in [self.renren_relation, self.temp_relation]:
-			cur.execute("SELECT renrenId{} FROM {} where renrenId{}={}".format(target,table,where,renrenId))
+			cur.execute("SELECT renrenId{} FROM {} where renrenId{}={}".format(target, table, where, renrenId))
 			for item in cur.fetchall():
 				res.add(item[0])
 		cur.close()
