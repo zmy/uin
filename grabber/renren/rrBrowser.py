@@ -20,8 +20,8 @@ class RenrenBrowser:
 		'friendList':'class="info"'}
 	filenameTmplt = '{}{}_{}.html' #pageStyle, renrenId, page
 	
-	def __init__(self, user, passwd):
-		self.pwdRoot = './'+user+'/renrenData'
+	def __init__(self, user, passwd, path='.'):
+		self.pwdRoot = path+'/'+user+'/renrenData'
 		self.pwdProfilePage = self.pwdRoot+'/profilePages'
 		self.pwdFriendPage = self.pwdRoot+'/friendList'
 		self.pwdLog = self.pwdRoot+'/spider_log'

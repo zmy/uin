@@ -5,15 +5,16 @@ from rrParser import RenrenParser
 from rrRecorder import RenrenRecorder
 
 
+storePath = 'D:/Projects/NetSci/U&I/data'
 rrID = input("Your Renren ID (e.g.239486743): ")
 rrUser = input("Your Renren Login Email: ")
 rrPassword = input("Your Renren Password: ")
 
 #db = RenrenDb()
-browser = RenrenBrowser(user=rrUser, passwd=rrPassword)
+browser = RenrenBrowser(user=rrUser, passwd=rrPassword, path=storePath)
 browser.setLogLevel(40)
 browser.login()
-recorder = RenrenRecorder(browser.getPwdRoot())
+recorder = RenrenRecorder(storePath)
 parser = RenrenParser(browser, recorder)
 #print(len(recorder.getFriends(rrID)))
 
