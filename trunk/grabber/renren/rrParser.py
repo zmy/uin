@@ -125,7 +125,10 @@ class RenrenParser:
 					print('error. filename={}'.format(page))
 
 	def friends(self):
+		cnt = 0
 		for renrenId in os.listdir(self.browser.getPwdFriendPage()):
+			print("parsing")
+			cnt = cnt+1
 			pwd = self.browser.getPwdFriendPage()+'/'+renrenId+'/'
 			#parsered pages and assign to flist 
 			pages = os.listdir(pwd)

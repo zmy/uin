@@ -5,9 +5,9 @@ Directly run rrGrabber.py under the current directory.
 
 By default the grabber won't use SQL database,
 it store things in memory and finally backup python ojects in .p files.
+You can change where to save data in rrGrabber.py
 
-
-You have to config MySQL database manually:
+When using database you have to config MySQL database manually:
 In MySQL you should provide a schema with enough privilege (see rrDB.py, the getConn function).
 And before you run the grabber you should add tables into the schema:
 	t_renren_relation with columns renrenId1 and renrenId2
