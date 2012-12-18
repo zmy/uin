@@ -28,11 +28,14 @@ class RenrenBrowser:
 		self.log = self.initLogger()
 		self.user = user
 		self.passwd = passwd
-		
+	
+	def getPwdRoot(self):
+		return self.pwdRoot
+	
 	def getPwdFriendPage(self):
 		return self.pwdFriendPage
 
-	def friendListPage(self, renrenId, uppage=350):
+	def friendListPage(self, renrenId, uppage=400):
 		self.iterPage('friendList', renrenId, uppage)
 	
 	def statusPage(self,renrenId=None,uppage=100):

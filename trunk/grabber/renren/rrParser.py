@@ -7,9 +7,10 @@ from rrBrowser import RenrenBrowser
 
 
 class RenrenParser:
-	def __init__(self, browser):
+	def __init__(self, browser, recorder=None):
 		#self.log=self.initLogger()
 		self.browser = browser
+		self.recorder = recorder;
 
 	def friendPage(self, filename):
 		#open and read 
@@ -88,15 +89,16 @@ class RenrenParser:
 			replyCountPtn=r'replyCount\d+">\(\d+\)'
 			replyCountDraft=re.compile(replyCountPtn).findall(item)
 			if len(replyCountDraft)<1:
-					replyCount='0'
+				replyCount='0'
 			else:
 				replyCount=re.compile(r'\(\d+\)').findall(replyCountDraft[0])[0].strip('()')
 			#status.append({'statusId':statusId,'timestamp':timestamp,'replyCount':replyCount,'content':content})
 			#status={'statusId':statusId,'timestamp':timestamp,'replyCount':replyCount}
 			status=status+",('{}','{}','{}','{}','{}')".format(statusId,mainId,content.replace("'",'"'),replyCount,timestamp)
+		#TODO: add none sql code
 		sql="INSERT INTO temp_status(statusId,renrenId,content,replyCount,timestamp) values {}".format(status.strip(','))
 		#print(sql)
-		db=RenrenDb()	
+		db=RenrenDb()
 		conn=db.getConn()
 		cur=conn.cursor()
 		try:
@@ -147,22 +149,29 @@ class RenrenParser:
 				#all files parser, continue
 				continue
 			#else:
-			#insert into table, pairs>temp_profile, relation>temp_relation
-			db = RenrenDb()
-			sqlProfile = 'insert into {} (renrenId,name) values {}'.format(db.temp_profile, str(flist).strip('{}'))
-			relation = ''
-			for pair in flist:
-				relation = relation+'({},{}),'.format(renrenId, str(pair[0]))
-			sqlRelation = 'insert into {} (renrenId1,renrenId2) values {}'.format(db.temp_relation, relation.strip(','))
-			conn = db.getConn()
-			cur = conn.cursor()
-			m = cur.execute(sqlProfile)
-			n = cur.execute(sqlRelation)
-			#self.log.info('{} profiles and {} relations of {} inserted into db'.format(m,n,renrenId))
-			conn.commit()
-			cur.close()
-			conn.close()
-	
+			if self.recorder==None:
+				#insert into table, pairs>temp_profile, relation>temp_relation
+				db = RenrenDb()
+				sqlProfile = 'insert into {} (renrenId,name) values {}'.format(db.temp_profile, str(flist).strip('{}'))
+				relation = ''
+				for pair in flist:
+					relation = relation+'({},{}),'.format(renrenId, str(pair[0]))
+				sqlRelation = 'insert into {} (renrenId1,renrenId2) values {}'.format(db.temp_relation, relation.strip(','))
+				conn = db.getConn()
+				cur = conn.cursor()
+				m = cur.execute(sqlProfile)
+				n = cur.execute(sqlRelation)
+				#self.log.info('{} profiles and {} relations of {} inserted into db'.format(m,n,renrenId))
+				conn.commit()
+				cur.close()
+				conn.close()
+			else:
+				self.recorder.addProfile(flist)
+				friends = set()
+				for pair in flist:
+					friends = friends | {str(pair[0])}
+				self.recorder.addRelation(renrenId, friends)
+			
 			#rename parsering files
 			for old in parsering:
 				new = 'parsered_'+old
