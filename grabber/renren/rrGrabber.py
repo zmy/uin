@@ -14,7 +14,7 @@ rrPassword = input("Your Renren Password: ")
 browser = RenrenBrowser(user=rrUser, passwd=rrPassword, path=storePath)
 browser.setLogLevel(40)
 browser.login()
-recorder = RenrenRecorder(storePath)
+recorder = RenrenRecorder(browser.getPwdRoot())
 parser = RenrenParser(browser, recorder)
 #print(len(recorder.getFriends(rrID)))
 
